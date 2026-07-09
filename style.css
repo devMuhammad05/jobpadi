@@ -89,8 +89,58 @@ body { -webkit-font-smoothing: antialiased; }
 .btn-arrow { transition: transform .22s cubic-bezier(.16,1,.3,1); }
 .btn:hover .btn-arrow { transform: translateX(3px); }
 
+/* ── Final CTA band — layered depth ──────────────────────────── */
+.cta-band {
+  background:
+    radial-gradient(120% 130% at 50% -10%, #6366F1 0%, #4F46E5 42%, #4338CA 100%);
+}
+.dark .cta-band {
+  background:
+    radial-gradient(120% 130% at 50% -10%, #4F46E5 0%, #3A32B0 45%, #241F63 100%);
+}
+
+/* Soft spotlight glow behind the headline (centred + parallax on --py) */
+.cta-glow {
+  background: radial-gradient(closest-side, rgba(255,255,255,.35), rgba(255,255,255,0) 70%);
+  filter: blur(8px);
+  transform: translate(-50%, calc(-33% + var(--py, 0px)));
+  will-change: transform;
+}
+
+/* Generic vertical parallax layer (hero card, chip cluster) */
+.parallax { transform: translate3d(0, var(--py, 0px), 0); will-change: transform; }
+
+/* Fine grain to kill the flat plastic look */
+.cta-grain {
+  opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Floating alert chips — frosted glass */
+.cta-chip {
+  border-radius: .75rem; padding: .85rem 1rem;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: 0 18px 40px -18px rgba(0,0,0,.55);
+  backdrop-filter: blur(6px);
+  animation: cta-float 7s ease-in-out infinite;
+}
+.cta-chip-l { --rot: -5deg; }
+.cta-chip-r { --rot: 5deg; animation-delay: -3.5s; }
+@keyframes cta-float {
+  0%, 100% { transform: translateY(0) rotate(var(--rot)); }
+  50%      { transform: translateY(-10px) rotate(var(--rot)); }
+}
+
+/* Gentle sheen sweep across the second headline line */
+.cta-shine {
+  background: linear-gradient(100deg, #fff 30%, #E0DEFF 50%, #fff 70%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .btn:hover, .btn:active { transform: none !important; }
   .btn-primary::after { display: none; }
+  .cta-chip { animation: none !important; }
 }

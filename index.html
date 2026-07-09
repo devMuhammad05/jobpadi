@@ -126,10 +126,10 @@
 
     <!-- ─ Copy ─ -->
     <div class="max-w-xl">
-      <p class="animate-fade flex items-center gap-2 font-mono text-[11px] uppercase tracking-[.16em] text-ink-mute">
+      <!-- <p class="animate-fade flex items-center gap-2 font-mono text-[11px] uppercase tracking-[.16em] text-ink-mute">
         <span class="h-1.5 w-1.5 rounded-full bg-live"></span>
         Scanning 30+ boards · last run 8 min ago
-      </p>
+      </p> -->
 
       <h1 id="hero-title"
           class="animate-fade mt-6 font-display text-[2.6rem] font-semibold leading-[1.02] tracking-[-.035em] sm:text-[3.4rem] lg:text-[3.9rem]"
@@ -175,6 +175,7 @@
 
     <!-- ─ The product: alerts as they arrive ─ -->
     <div class="animate-fade w-full" style="animation-delay:.2s">
+      <div class="parallax" data-parallax="0.05">
       <div class="overflow-hidden rounded-xl border border-line bg-white shadow-rise">
 
         <div class="flex items-center justify-between border-b border-line px-4 py-3">
@@ -254,6 +255,7 @@
       <p class="mt-3 text-center font-mono text-[10px] uppercase tracking-[.16em] text-ink-mute lg:text-left">
         Example of a Jobpadi alert
       </p>
+      </div>
     </div>
   </div>
 </section>
@@ -620,6 +622,68 @@
           Anytime, in one click from your account, with no forms and no waiting. You keep access until the end of your billing period, and you'll never be charged again after cancelling.
         </p>
       </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── Final CTA ────────────────────────────────────────────── -->
+<section class="cta-band relative overflow-hidden border-b border-line">
+
+  <!-- Layered depth: spotlight glow, faint grid, grain -->
+  <div aria-hidden="true" data-parallax="0.18" class="cta-glow pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px]"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 mx-auto hidden max-w-6xl rule-grid px-5 opacity-[.10] sm:px-8 lg:block"></div>
+  <div aria-hidden="true" class="cta-grain pointer-events-none absolute inset-0"></div>
+
+  <!-- Floating alert chips — echo the hero product, desktop only -->
+  <div aria-hidden="true" data-parallax="0.12" class="parallax pointer-events-none absolute inset-0 hidden lg:block">
+    <div class="cta-chip cta-chip-l absolute left-[6%] top-[26%] w-56">
+      <div class="flex items-center justify-between">
+        <p class="font-display text-[13px] font-semibold text-[#fff]">Frontend Engineer</p>
+        <span class="rounded border border-[#fff]/30 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-wider text-[#fff]/90">New</span>
+      </div>
+      <p class="mt-1 font-mono text-[10px] text-[#fff]/60">Paystack · Lagos · Hybrid</p>
+    </div>
+    <div class="cta-chip cta-chip-r absolute right-[6%] top-[46%] w-56">
+      <div class="flex items-center justify-between">
+        <p class="font-display text-[13px] font-semibold text-[#fff]">Product Designer</p>
+        <span class="font-mono text-[9px] text-[#fff]/60">08:14</span>
+      </div>
+      <p class="mt-1 font-mono text-[10px] text-[#fff]/60">Flutterwave · Remote</p>
+    </div>
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 lg:py-28">
+    <div class="relative z-10 mx-auto max-w-2xl">
+      <p class="inline-flex items-center gap-2 rounded-full border border-[#fff]/20 bg-[#fff]/10 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[.18em] text-[#fff]/85 backdrop-blur">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#fff] opacity-70"></span>
+          <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#fff]"></span>
+        </span>
+        Free to start · No card required
+      </p>
+
+      <h2 class="mt-6 font-display text-[2.3rem] font-semibold leading-[1.02] tracking-[-.035em] text-[#fff] sm:text-[3rem]">
+        Stop hunting for jobs.<br class="hidden sm:block">
+        <span class="cta-shine">Let them find you.</span>
+      </h2>
+
+      <p class="mx-auto mt-5 max-w-md text-[16px] leading-relaxed text-[#fff]/80">
+        Pick your categories once. We scan 30+ boards hourly and send real openings straight to your Telegram.
+      </p>
+
+      <div class="mt-9 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
+        <a href="#start" class="btn w-full bg-white px-6 py-3.5 text-[15px] font-semibold text-indigo-600 shadow-rise hover:bg-fog sm:w-auto">
+          Start free
+          <svg viewBox="0 0 20 20" class="btn-arrow h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg>
+        </a>
+        <a href="#pricing" class="btn w-full border border-[#fff]/25 px-6 py-3.5 text-[15px] font-medium text-[#fff] backdrop-blur hover:border-[#fff]/40 hover:bg-[#fff]/10 sm:w-auto">
+          See pricing
+        </a>
+      </div>
+
+      <p class="mt-6 font-mono text-[11px] uppercase tracking-[.16em] text-[#fff]/55">
+        Set up in under 2 minutes
+      </p>
     </div>
   </div>
 </section>

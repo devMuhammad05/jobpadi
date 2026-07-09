@@ -44,7 +44,44 @@ function setupMobileMenu() {
   });
 }
 
+// ── Parallax ──────────────────────────────────────────────────
+// Drives a `--py` custom property on [data-parallax] elements so the
+// offset composes with each element's own transform (fade-in, float,
+// centring) instead of overwriting it. rAF-throttled, opt-out on
+// reduced-motion.
+function setupParallax() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var els = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+  if (!els.length) return;
+
+  var vh = window.innerHeight;
+  var ticking = false;
+
+  function update() {
+    ticking = false;
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      var rect = el.getBoundingClientRect();
+      // Skip work when the element is well outside the viewport.
+      if (rect.bottom < -vh || rect.top > vh * 2) continue;
+      var speed = parseFloat(el.getAttribute('data-parallax')) || 0;
+      var offset = (rect.top + rect.height / 2) - vh / 2; // centre vs viewport centre
+      el.style.setProperty('--py', (-offset * speed).toFixed(1) + 'px');
+    }
+  }
+
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { vh = window.innerHeight; update(); });
+  update();
+}
+
 // ── Init ──────────────────────────────────────────────────────
 document.getElementById('year').textContent = new Date().getFullYear();
 syncThemeUI();
 setupMobileMenu();
+setupParallax();
