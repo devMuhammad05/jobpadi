@@ -1,20 +1,58 @@
 /* ────────────────────────────────────────────────────────────
    Jobpadi — custom styles
    Tailwind (CDN) handles utilities; this file holds the bits
-   Tailwind can't express cleanly: the hairline grid, focus ring,
-   and the shared action-button behaviour.
+   Tailwind can't express cleanly: the theme palette (as CSS
+   variables so light/dark swap in one place), the hairline grid,
+   focus ring, and the shared action-button behaviour.
    ──────────────────────────────────────────────────────────── */
 
+/* ── Theme palette — values are space-separated RGB channels so
+      Tailwind's rgb(var(--x) / <alpha-value>) opacity modifiers work. */
+:root {
+  color-scheme: light;
+  --surface:    255 255 255;
+  --fog:        247 248 250;
+  --line:       232 233 239;
+  --ink:         11  11  18;
+  --ink-soft:    67  70  90;
+  --ink-mute:   122 125 144;
+  --indigo-50:  241 242 254;
+  --indigo-100: 226 228 253;
+  --indigo-200: 199 203 251;
+  --indigo-500:  79  70 229;
+  --indigo-600:  67  56 202;
+  --live:        14 159 110;
+  --grid-line:  #EDEEF3;
+}
+
+.dark {
+  color-scheme: dark;
+  --surface:     19  20  27;
+  --fog:         27  28  37;
+  --line:        42  44  56;
+  --ink:        242 243 247;
+  --ink-soft:   180 183 198;
+  --ink-mute:   127 131 148;
+  --indigo-50:   33  31  61;
+  --indigo-100:  42  39  82;
+  --indigo-200:  62  59 110;
+  --indigo-500: 129 127 245;
+  --indigo-600: 165 161 248;
+  --live:        16 185 129;
+  --grid-line:  #20222E;
+}
+
+html { transition: background-color .3s ease; }
 body { -webkit-font-smoothing: antialiased; }
 
 /* Hairline grid — structural, not decorative: it marks the layout columns. */
 .rule-grid {
   background-image:
-    linear-gradient(to right, #EDEEF3 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px);
   background-size: 25% 100%;
 }
 
-:focus-visible { outline: 2px solid #4F46E5; outline-offset: 2px; }
+:focus-visible { outline: 2px solid #6366F1; outline-offset: 2px; }
 
 /* ── Action buttons — shared tactile behaviour ───────────────── */
 .btn {
@@ -27,6 +65,8 @@ body { -webkit-font-smoothing: antialiased; }
 
 .btn-primary { position: relative; overflow: hidden; background: #4F46E5; color: #fff; box-shadow: 0 1px 2px rgba(11,11,18,.06); }
 .btn-primary:hover { background: #4338CA; transform: translateY(-1.5px); box-shadow: 0 10px 24px -8px rgba(79,70,229,.55); }
+.dark .btn-primary { background: #6366F1; box-shadow: 0 1px 2px rgba(0,0,0,.4); }
+.dark .btn-primary:hover { background: #4F46E5; box-shadow: 0 10px 24px -8px rgba(99,102,241,.6); }
 
 /* sheen sweep */
 .btn-primary::after {
@@ -36,8 +76,15 @@ body { -webkit-font-smoothing: antialiased; }
 }
 .btn-primary:hover::after { transform: translateX(130%); }
 
-.btn-ghost { background: #fff; color: #0B0B12; border: 1px solid #E8E9EF; box-shadow: 0 1px 2px rgba(11,11,18,.05); }
-.btn-ghost:hover { background: #F7F8FA; border-color: rgba(11,11,18,.20); transform: translateY(-1.5px); box-shadow: 0 8px 18px -8px rgba(11,11,18,.28); }
+.btn-ghost {
+  background: rgb(var(--surface)); color: rgb(var(--ink));
+  border: 1px solid rgb(var(--line)); box-shadow: 0 1px 2px rgba(11,11,18,.05);
+}
+.btn-ghost:hover {
+  background: rgb(var(--fog)); border-color: rgb(var(--ink) / .20);
+  transform: translateY(-1.5px); box-shadow: 0 8px 18px -8px rgba(11,11,18,.28);
+}
+.dark .btn-ghost:hover { box-shadow: 0 8px 18px -8px rgba(0,0,0,.6); }
 
 .btn-arrow { transition: transform .22s cubic-bezier(.16,1,.3,1); }
 .btn:hover .btn-arrow { transform: translateX(3px); }
