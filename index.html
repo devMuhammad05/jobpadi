@@ -34,6 +34,8 @@
           fog:   'rgb(var(--fog) / <alpha-value>)',
           live:  'rgb(var(--live) / <alpha-value>)',
           white: 'rgb(var(--surface) / <alpha-value>)',
+          // True, theme-independent white — for content on the coloured CTA card.
+          snow:  '#ffffff',
         },
         fontFamily: {
           display: ['"Inter Tight"', 'system-ui', 'sans-serif'],
@@ -119,6 +121,12 @@
 <main>
 <section class="relative border-b border-line" aria-labelledby="hero-title">
 
+  <!-- Drifting gradient orbs behind the hero -->
+  <div aria-hidden="true" class="hero-orbs pointer-events-none absolute inset-0">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+  </div>
+
   <!-- Column rules, aligned to the content grid -->
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 mx-auto hidden max-w-6xl rule-grid px-5 sm:px-8 lg:block"></div>
 
@@ -142,7 +150,7 @@
         Real job openings, scanned hourly and delivered directly to your Telegram or inbox.
       </p>
 
-      <div class="animate-fade mt-8 flex flex-col gap-2.5 sm:flex-row sm:items-center" style="animation-delay:.15s">
+      <div class="animate-fade mt-8 flex flex-col items-start gap-2.5 sm:flex-row sm:items-center" style="animation-delay:.15s">
         <a href="#start" class="btn btn-primary px-5 py-3 text-[15px]">
           Start free
         </a>
@@ -321,8 +329,8 @@
       </p>
     </div>
 
-    <!-- Hub-and-spoke: Jobpadi in the middle, channels on the outside -->
-    <div class="mx-auto mt-14 max-w-3xl">
+    <!-- Hub-and-spoke: Jobpadi in the middle, channels on the outside (tablet + desktop) -->
+    <div class="mx-auto mt-14 hidden max-w-3xl sm:block">
       <svg viewBox="0 0 720 300" class="w-full" fill="none" role="img"
            aria-label="Jobpadi delivering job alerts to WhatsApp, Gmail and Telegram">
 
@@ -430,6 +438,76 @@
 
         <!-- Hub: Jobpadi -->
         <g transform="translate(360 150)">
+          <circle r="52" fill="rgb(var(--indigo-50))" opacity="0.7"/>
+          <circle r="40" fill="rgb(var(--surface))" stroke="rgb(var(--indigo-200))" stroke-width="1.5"/>
+          <image href="img/jobpadilogo.webp" x="-26" y="-26" width="52" height="52" preserveAspectRatio="xMidYMid meet"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Same hub-and-spoke, re-laid-out portrait for phones -->
+    <div class="mx-auto mt-10 max-w-[340px] sm:hidden">
+      <svg viewBox="0 0 340 396" class="w-full" fill="none" role="img"
+           aria-label="Jobpadi delivering job alerts to WhatsApp, Gmail and Telegram">
+
+        <!-- Connector lines (hub → channels) -->
+        <g stroke="rgb(var(--line))" stroke-width="1.5">
+          <path d="M170 96 C 120 210, 54 210, 54 300"/>
+          <path d="M170 96 C 170 200, 170 220, 170 312"/>
+          <path d="M170 96 C 220 210, 286 210, 286 300"/>
+        </g>
+
+        <!-- Animated pulses travelling down each line -->
+        <g fill="rgb(var(--indigo-500))">
+          <circle r="3.5">
+            <animateMotion dur="2.4s" repeatCount="indefinite" path="M170 96 C 120 210, 54 210, 54 300"/>
+            <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3.5">
+            <animateMotion dur="2.4s" begin="0.5s" repeatCount="indefinite" path="M170 96 C 170 200, 170 220, 170 312"/>
+            <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="0.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3.5">
+            <animateMotion dur="2.4s" begin="1s" repeatCount="indefinite" path="M170 96 C 220 210, 286 210, 286 300"/>
+            <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="1s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+
+        <!-- Channel: WhatsApp -->
+        <g transform="translate(54 300)">
+          <circle r="30" fill="rgb(var(--surface))" stroke="rgb(var(--line))" stroke-width="1.5"/>
+          <g transform="translate(-14 -14)">
+            <path fill="#25D366" d="M14.02 0C6.28 0 0 6.28 0 14.02c0 2.47.65 4.88 1.87 7.01L0 28l7.16-1.85a14 14 0 0 0 6.86 1.78h.01c7.73 0 14.02-6.29 14.02-14.02C28.05 6.28 21.76 0 14.02 0Z"/>
+            <path fill="#fff" d="M21.2 19.53c-.3.84-1.76 1.64-2.44 1.7-.65.06-1.28.29-4.4-.94-3.73-1.47-6.09-5.28-6.27-5.53-.18-.24-1.5-2-1.5-3.81 0-1.81.95-2.7 1.29-3.07.34-.37.74-.46.99-.46l.7.01c.23.01.53-.09.83.63.3.72 1.03 2.53 1.12 2.72.09.18.15.4.03.64-.12.24-.18.4-.36.61-.18.21-.38.47-.54.63-.18.18-.37.38-.16.74.21.36.94 1.55 2.02 2.51 1.39 1.24 2.56 1.62 2.92 1.8.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.1.99 2.46 1.17.36.18.6.27.69.42.09.15.09.85-.21 1.69Z"/>
+          </g>
+          <text x="0" y="48" text-anchor="middle" class="font-mono" font-size="11" fill="rgb(var(--ink-soft))">WhatsApp</text>
+        </g>
+
+        <!-- Channel: Gmail -->
+        <g transform="translate(170 312)">
+          <circle r="30" fill="rgb(var(--surface))" stroke="rgb(var(--line))" stroke-width="1.5"/>
+          <g transform="translate(-15 -11)">
+            <path fill="#4285F4" d="M2 22V8.2l4 3v10.8H3a1 1 0 0 1-1-1Z"/>
+            <path fill="#34A853" d="M28 22a1 1 0 0 1-1 1h-3V11.2l4-3V22Z"/>
+            <path fill="#FBBC04" d="M24 4.5V11.2l-9 6.75L6 11.2V4.5l9 6.75 9-6.75Z"/>
+            <path fill="#EA4335" d="M2 8.2V6a1.5 1.5 0 0 1 2.4-1.2L6 6l9 6.75V17.9L6 11.2 2 8.2Z"/>
+            <path fill="#C5221F" d="M28 6v2.2l-4 3V6l1.6-1.2A1.5 1.5 0 0 1 28 6Z"/>
+          </g>
+          <text x="0" y="48" text-anchor="middle" class="font-mono" font-size="11" fill="rgb(var(--ink-soft))">Gmail</text>
+        </g>
+
+        <!-- Channel: Telegram -->
+        <g transform="translate(286 300)">
+          <circle r="30" fill="rgb(var(--surface))" stroke="rgb(var(--line))" stroke-width="1.5"/>
+          <g transform="translate(-14 -14)">
+            <circle cx="14" cy="14" r="14" fill="#2AABEE"/>
+            <path fill="#fff" d="M6.3 13.7c4.1-1.8 6.9-3 8.3-3.6 3.9-1.6 4.7-1.9 5.2-1.9.1 0 .4 0 .5.2.1.1.1.3.1.4 0 .1 0 .3-.1.4-.5 3-1.7 8.9-2.2 11-.2.9-.5 1.2-.9 1.2-.7.1-1.3-.5-2-1-1.1-.7-1.7-1.2-2.8-1.9-1.2-.8-.4-1.2.3-1.9.2-.2 3.4-3.1 3.4-3.4 0 0 0-.1-.1-.2-.1 0-.2 0-.3.03-.1.02-2 1.3-5.6 3.8-.5.4-1 .5-1.5.5-.5 0-1.4-.3-2.1-.5-.8-.3-1.5-.4-1.4-.9 0-.2.3-.5 1-.73Z"/>
+          </g>
+          <text x="0" y="48" text-anchor="middle" class="font-mono" font-size="11" fill="rgb(var(--ink-soft))">Telegram</text>
+        </g>
+
+        <!-- Hub: Jobpadi -->
+        <g transform="translate(170 84)">
           <circle r="52" fill="rgb(var(--indigo-50))" opacity="0.7"/>
           <circle r="40" fill="rgb(var(--surface))" stroke="rgb(var(--indigo-200))" stroke-width="1.5"/>
           <image href="img/jobpadilogo.webp" x="-26" y="-26" width="52" height="52" preserveAspectRatio="xMidYMid meet"/>
@@ -620,21 +698,30 @@
   </div>
 </section>
 <!-- ── Testimonials ─────────────────────────────────────────── -->
-<section id="testimonials" class="border-b border-line">
-  <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
+<!-- Pinned horizontal scroll: the section is taller than the viewport;
+     while it's pinned, vertical scroll drives the track left (see
+     setupHorizontalScroll in app.js). Falls back to a wrapping grid
+     when JS is off or reduced-motion is requested (.hscroll-off). -->
+<section id="testimonials" data-hscroll class="hscroll border-b border-line">
+  <div data-hscroll-pin class="hscroll-pin sticky top-0 flex h-screen flex-col justify-center overflow-hidden py-16">
 
-    <div class="max-w-xl">
-      <p class="font-mono text-[11px] uppercase tracking-[.2em] text-ink-mute">Testimonials</p>
-      <h2 class="mt-4 font-display text-[2rem] font-semibold leading-tight tracking-[-.03em] sm:text-[2.5rem]">
-        Trusted by job seekers
-      </h2>
-      <p class="mt-4 max-w-lg text-[16px] leading-relaxed text-ink-soft">
-        Real people who stopped refreshing job boards and let the openings come to them.
-      </p>
+    <div class="px-5 sm:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="max-w-xl">
+          <p class="font-mono text-[11px] uppercase tracking-[.2em] text-ink-mute">Testimonials</p>
+          <h2 class="mt-4 font-display text-[2rem] font-semibold leading-tight tracking-[-.03em] sm:text-[2.5rem]">
+            Trusted by job seekers
+          </h2>
+          <p class="mt-4 max-w-lg text-[16px] leading-relaxed text-ink-soft">
+            Real people who stopped refreshing job boards and let the openings come to them.
+            <span class="hidden text-ink-mute md:inline">Keep scrolling &rarr;</span>
+          </p>
+        </div>
+      </div>
     </div>
 
-    <ul class="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
-      <li class="flex flex-col rounded-xl border border-line bg-white p-6 shadow-card">
+    <ul data-hscroll-track class="hscroll-track mt-10 flex flex-nowrap items-stretch gap-5 px-5 will-change-transform sm:px-8">
+      <li class="flex w-[82vw] max-w-[360px] shrink-0 snap-start flex-col rounded-xl border border-line bg-white p-6 shadow-card sm:w-[360px]">
         <svg viewBox="0 0 24 24" class="h-6 w-6 text-indigo-200" fill="currentColor" aria-hidden="true"><path d="M9.5 6C6.5 7.3 5 9.7 5 13.2V18h5.4v-5.4H7.9c0-2.2 1-3.7 2.9-4.6L9.5 6zm9 0C15.5 7.3 14 9.7 14 13.2V18h5.4v-5.4h-2.5c0-2.2 1-3.7 2.9-4.6L18.5 6z"/></svg>
         <blockquote class="mt-4 flex-1 font-display text-[18px] font-medium leading-snug tracking-tight text-ink">
           Got 3 interview invites in my first week. Unreal.
@@ -648,7 +735,7 @@
         </div>
       </li>
 
-      <li class="flex flex-col rounded-xl border border-line bg-white p-6 shadow-card">
+      <li class="flex w-[82vw] max-w-[360px] shrink-0 snap-start flex-col rounded-xl border border-line bg-white p-6 shadow-card sm:w-[360px]">
         <svg viewBox="0 0 24 24" class="h-6 w-6 text-indigo-200" fill="currentColor" aria-hidden="true"><path d="M9.5 6C6.5 7.3 5 9.7 5 13.2V18h5.4v-5.4H7.9c0-2.2 1-3.7 2.9-4.6L9.5 6zm9 0C15.5 7.3 14 9.7 14 13.2V18h5.4v-5.4h-2.5c0-2.2 1-3.7 2.9-4.6L18.5 6z"/></svg>
         <blockquote class="mt-4 flex-1 font-display text-[18px] font-medium leading-snug tracking-tight text-ink">
           I was manually searching the internet for jobs every morning. Now it just shows up.
@@ -662,7 +749,7 @@
         </div>
       </li>
 
-      <li class="flex flex-col rounded-xl border border-line bg-white p-6 shadow-card">
+      <li class="flex w-[82vw] max-w-[360px] shrink-0 snap-start flex-col rounded-xl border border-line bg-white p-6 shadow-card sm:w-[360px]">
         <svg viewBox="0 0 24 24" class="h-6 w-6 text-indigo-200" fill="currentColor" aria-hidden="true"><path d="M9.5 6C6.5 7.3 5 9.7 5 13.2V18h5.4v-5.4H7.9c0-2.2 1-3.7 2.9-4.6L9.5 6zm9 0C15.5 7.3 14 9.7 14 13.2V18h5.4v-5.4h-2.5c0-2.2 1-3.7 2.9-4.6L18.5 6z"/></svg>
         <blockquote class="mt-4 flex-1 font-display text-[18px] font-medium leading-snug tracking-tight text-ink">
           The Telegram delivery is a game changer. I see jobs without spending time searching.
@@ -675,7 +762,84 @@
           </div>
         </div>
       </li>
+
+      <li class="flex w-[82vw] max-w-[360px] shrink-0 snap-start flex-col rounded-xl border border-line bg-white p-6 shadow-card sm:w-[360px]">
+        <svg viewBox="0 0 24 24" class="h-6 w-6 text-indigo-200" fill="currentColor" aria-hidden="true"><path d="M9.5 6C6.5 7.3 5 9.7 5 13.2V18h5.4v-5.4H7.9c0-2.2 1-3.7 2.9-4.6L9.5 6zm9 0C15.5 7.3 14 9.7 14 13.2V18h5.4v-5.4h-2.5c0-2.2 1-3.7 2.9-4.6L18.5 6z"/></svg>
+        <blockquote class="mt-4 flex-1 font-display text-[18px] font-medium leading-snug tracking-tight text-ink">
+          Landed a remote role I'd never have found on my own. Two weeks, one offer.
+        </blockquote>
+        <div class="mt-6 flex items-center gap-3 border-t border-line pt-5">
+          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-fog font-mono text-[11px] font-medium text-ink-soft ring-1 ring-line">AE</span>
+          <div class="leading-tight">
+            <p class="text-[14px] font-medium text-ink">Amara E.</p>
+            <p class="font-mono text-[11px] text-ink-mute">Remote</p>
+          </div>
+        </div>
+      </li>
+
+      <li class="flex w-[82vw] max-w-[360px] shrink-0 snap-start flex-col rounded-xl border border-line bg-white p-6 shadow-card sm:w-[360px]">
+        <svg viewBox="0 0 24 24" class="h-6 w-6 text-indigo-200" fill="currentColor" aria-hidden="true"><path d="M9.5 6C6.5 7.3 5 9.7 5 13.2V18h5.4v-5.4H7.9c0-2.2 1-3.7 2.9-4.6L9.5 6zm9 0C15.5 7.3 14 9.7 14 13.2V18h5.4v-5.4h-2.5c0-2.2 1-3.7 2.9-4.6L18.5 6z"/></svg>
+        <blockquote class="mt-4 flex-1 font-display text-[18px] font-medium leading-snug tracking-tight text-ink">
+          No more expired listings. Every alert I open is a real, active opening.
+        </blockquote>
+        <div class="mt-6 flex items-center gap-3 border-t border-line pt-5">
+          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-fog font-mono text-[11px] font-medium text-ink-soft ring-1 ring-line">TA</span>
+          <div class="leading-tight">
+            <p class="text-[14px] font-medium text-ink">Tunde A.</p>
+            <p class="font-mono text-[11px] text-ink-mute">Nigeria</p>
+          </div>
+        </div>
+      </li>
+
+      <li class="flex w-[82vw] max-w-[360px] shrink-0 snap-start flex-col rounded-xl border border-line bg-white p-6 shadow-card sm:w-[360px]">
+        <svg viewBox="0 0 24 24" class="h-6 w-6 text-indigo-200" fill="currentColor" aria-hidden="true"><path d="M9.5 6C6.5 7.3 5 9.7 5 13.2V18h5.4v-5.4H7.9c0-2.2 1-3.7 2.9-4.6L9.5 6zm9 0C15.5 7.3 14 9.7 14 13.2V18h5.4v-5.4h-2.5c0-2.2 1-3.7 2.9-4.6L18.5 6z"/></svg>
+        <blockquote class="mt-4 flex-1 font-display text-[18px] font-medium leading-snug tracking-tight text-ink">
+          Set it up in five minutes, forgot about it, then a dream job landed in my inbox.
+        </blockquote>
+        <div class="mt-6 flex items-center gap-3 border-t border-line pt-5">
+          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-fog font-mono text-[11px] font-medium text-ink-soft ring-1 ring-line">GM</span>
+          <div class="leading-tight">
+            <p class="text-[14px] font-medium text-ink">Grace M.</p>
+            <p class="font-mono text-[11px] text-ink-mute">Kenya</p>
+          </div>
+        </div>
+      </li>
+
+      <li class="flex w-[82vw] max-w-[360px] shrink-0 snap-start flex-col rounded-xl border border-line bg-white p-6 shadow-card sm:w-[360px]">
+        <svg viewBox="0 0 24 24" class="h-6 w-6 text-indigo-200" fill="currentColor" aria-hidden="true"><path d="M9.5 6C6.5 7.3 5 9.7 5 13.2V18h5.4v-5.4H7.9c0-2.2 1-3.7 2.9-4.6L9.5 6zm9 0C15.5 7.3 14 9.7 14 13.2V18h5.4v-5.4h-2.5c0-2.2 1-3.7 2.9-4.6L18.5 6z"/></svg>
+        <blockquote class="mt-4 flex-1 font-display text-[18px] font-medium leading-snug tracking-tight text-ink">
+          I follow three categories now. It's like having a recruiter working overnight.
+        </blockquote>
+        <div class="mt-6 flex items-center gap-3 border-t border-line pt-5">
+          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-fog font-mono text-[11px] font-medium text-ink-soft ring-1 ring-line">IB</span>
+          <div class="leading-tight">
+            <p class="text-[14px] font-medium text-ink">Ifeoma B.</p>
+            <p class="font-mono text-[11px] text-ink-mute">Nigeria</p>
+          </div>
+        </div>
+      </li>
+
+      <li class="flex w-[82vw] max-w-[360px] shrink-0 snap-start flex-col rounded-xl border border-line bg-white p-6 shadow-card sm:w-[360px]">
+        <svg viewBox="0 0 24 24" class="h-6 w-6 text-indigo-200" fill="currentColor" aria-hidden="true"><path d="M9.5 6C6.5 7.3 5 9.7 5 13.2V18h5.4v-5.4H7.9c0-2.2 1-3.7 2.9-4.6L9.5 6zm9 0C15.5 7.3 14 9.7 14 13.2V18h5.4v-5.4h-2.5c0-2.2 1-3.7 2.9-4.6L18.5 6z"/></svg>
+        <blockquote class="mt-4 flex-1 font-display text-[18px] font-medium leading-snug tracking-tight text-ink">
+          Finally something that works across the whole region, not just the big cities.
+        </blockquote>
+        <div class="mt-6 flex items-center gap-3 border-t border-line pt-5">
+          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-fog font-mono text-[11px] font-medium text-ink-soft ring-1 ring-line">KO</span>
+          <div class="leading-tight">
+            <p class="text-[14px] font-medium text-ink">Kwame O.</p>
+            <p class="font-mono text-[11px] text-ink-mute">Ghana</p>
+          </div>
+        </div>
+      </li>
     </ul>
+
+    <!-- Scroll progress rail -->
+    <div class="mt-10 px-5 sm:px-8" aria-hidden="true">
+      <div class="mx-auto h-px max-w-6xl overflow-hidden bg-line">
+        <div data-hscroll-bar class="h-full w-0 origin-left bg-indigo-500"></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -808,31 +972,31 @@
       <!-- Offset shelf — subtle layered depth, not decoration -->
       <div aria-hidden="true" class="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl border border-line bg-fog"></div>
 
-      <div class="relative rounded-2xl bg-[#4338CA] p-7 shadow-rise ring-1 ring-inset ring-white/10 dark:bg-[#241F63] sm:p-8">
+      <div class="relative rounded-2xl bg-[#4338CA] p-7 shadow-rise ring-1 ring-inset ring-snow/10 dark:bg-[#241F63] sm:p-8">
         <!-- Live status — the product is already working -->
-        <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[.16em] text-white/85">
+        <p class="inline-flex items-center gap-2 rounded-full bg-snow/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[.16em] text-snow/85">
           <span class="relative flex h-1.5 w-1.5">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70"></span>
-            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-white"></span>
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-snow/70"></span>
+            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-snow"></span>
           </span>
           Scanning 30+ boards
         </p>
 
-        <h3 class="mt-6 font-display text-[1.6rem] font-semibold leading-tight tracking-[-.02em] text-white">
+        <h3 class="mt-6 font-display text-[1.6rem] font-semibold leading-tight tracking-[-.02em] text-snow">
           Create your feed<br>in under 2 minutes
         </h3>
-        <p class="mt-2.5 text-[14px] leading-relaxed text-white/70">
+        <p class="mt-2.5 text-[14px] leading-relaxed text-snow/70">
           Free forever. Upgrade only when you want more categories and more jobs a day.
         </p>
 
-        <a href="#start" class="btn mt-7 w-full bg-white px-6 py-3.5 text-[15px] font-semibold text-[#4338CA] shadow-rise hover:bg-fog">
+        <a href="#start" class="btn mt-7 w-full bg-snow px-6 py-3.5 text-[15px] font-semibold text-[#4338CA] shadow-rise hover:bg-[#EEF0FE]">
           Start free
           <svg viewBox="0 0 20 20" class="btn-arrow h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg>
         </a>
 
-        <p class="mt-4 text-center text-[13px] text-white/70">
+        <p class="mt-4 text-center text-[13px] text-snow/70">
           Just curious?
-          <a href="#pricing" class="font-medium text-white underline decoration-white/30 underline-offset-4 transition hover:decoration-white">See pricing</a>
+          <a href="#pricing" class="font-medium text-snow underline decoration-snow/30 underline-offset-4 transition hover:decoration-snow">See pricing</a>
         </p>
       </div>
     </div>

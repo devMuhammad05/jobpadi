@@ -80,8 +80,66 @@ function setupParallax() {
   update();
 }
 
+// ── Pinned horizontal scroll (Testimonials) ───────────────────
+// While the tall [data-hscroll] section is pinned, vertical scroll
+// progress (0→1) drives the track's horizontal translation, so cards
+// slide left and later ones are revealed. Section height is sized to
+// the horizontal overflow for a ~1:1 scroll feel. Falls back to a
+// static wrapping grid on reduced-motion (.hscroll-off).
+function setupHorizontalScroll() {
+  var section = document.querySelector('[data-hscroll]');
+  if (!section) return;
+  var pin = section.querySelector('[data-hscroll-pin]');
+  var track = section.querySelector('[data-hscroll-track]');
+  if (!pin || !track) return;
+  var bar = section.querySelector('[data-hscroll-bar]');
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var maxShift = 0;
+  var ticking = false;
+
+  function enabled() { return !reduce.matches; }
+
+  function measure() {
+    section.classList.toggle('hscroll-off', !enabled());
+    if (!enabled()) {
+      section.style.height = '';
+      track.style.transform = '';
+      if (bar) bar.style.width = '';
+      return;
+    }
+    // Horizontal distance the track must travel = its overflow past the pin.
+    maxShift = Math.max(track.scrollWidth - track.clientWidth, 0);
+    // Give the section that much extra vertical scroll room beyond one viewport.
+    section.style.height = (window.innerHeight + maxShift) + 'px';
+    update();
+  }
+
+  function update() {
+    ticking = false;
+    if (!enabled()) return;
+    var rect = section.getBoundingClientRect();
+    var scrollable = section.offsetHeight - window.innerHeight;
+    var progress = scrollable > 0 ? Math.min(Math.max(-rect.top / scrollable, 0), 1) : 0;
+    track.style.transform = 'translate3d(' + (-progress * maxShift).toFixed(1) + 'px,0,0)';
+    if (bar) bar.style.width = (progress * 100).toFixed(1) + '%';
+  }
+
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', measure);
+  reduce.addEventListener('change', measure);
+  // Web fonts can change card widths after first paint; re-measure on load.
+  window.addEventListener('load', measure);
+  measure();
+}
+
 // ── Init ──────────────────────────────────────────────────────
 document.getElementById('year').textContent = new Date().getFullYear();
 syncThemeUI();
 setupMobileMenu();
 setupParallax();
+setupHorizontalScroll();
